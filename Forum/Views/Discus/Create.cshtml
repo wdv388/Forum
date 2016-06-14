@@ -1,0 +1,64 @@
+﻿@model Forum.Discus
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+<h2>Додати нове повідомлення</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Discus</legend>
+
+        <div class="editor-label">
+         @*   @Html.LabelFor(model => model.TopicsID, "Topics")*@
+        </div>
+        <div class="editor-field">
+            <input type="hidden" name="TopicsID" value=" @ViewBag.ID " id="TopicsID" />
+            @*@Html.DropDownList("TopicsID", String.Empty)
+            @Html.ValidationMessageFor(model => model.TopicsID)*@
+        </div>
+
+        <div class="editor-label">
+        @*    @Html.LabelFor(model => model.Date)*@
+        </div>
+        <div class="editor-field">
+            <input type="hidden" name="Date" value="@System.DateTime.Now " id="Date"/>
+          @*  @Html.EditorFor(model => model.Date)
+            @Html.ValidationMessageFor(model => model.Date)*@
+        </div>
+
+        <div class="editor-label">
+        @*    @Html.LabelFor(model => model.Author)*@
+        </div>
+        <div class="editor-field">
+              <input type="hidden" name="Author" value="@ViewBag.AID " />
+          @*  @Html.EditorFor(model => model.Author)
+            @Html.ValidationMessageFor(model => model.Author)*@
+        </div>
+
+        <div class="editor-label">
+         @*   @Html.LabelFor(model => model.Text)*@
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Text)
+            @Html.ValidationMessageFor(model => model.Text)
+        </div>
+
+        <p>
+            <input type="submit" value="Додати" />
+        </p>
+    </fieldset>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

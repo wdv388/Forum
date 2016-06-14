@@ -1,0 +1,43 @@
+﻿@model Forum.Answer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Answer</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Discus.Text)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Discus.Text)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AuthorID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AuthorID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Text)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Text)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

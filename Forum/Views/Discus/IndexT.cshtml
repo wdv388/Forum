@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Forum.Discus>
+
+@{
+    
+}
+
+<h2>ТЕМА ОБГОВОРЕННЯ @ViewBag.TN;</h2>
+
+<p>
+ 
+   
+@*<button type="button" class="btn btn-link">@Html.ActionLink("Додати нове повідомлення", "Create",new{id=@ViewBag.ID},null)</button> *@
+   
+
+</p>
+@*<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Topics)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Topics.TopicName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author)
+              @ViewBag.userlist
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("answer","IndexT","Answer",new{id=item.ID},null)
+           
+        </td>
+    </tr>
+}
+
+</table>*@
+
+@foreach (var item in Model) { 
+
+    <div class="panel panel-default">
+  <div class="panel-body">
+  @item.Text 
+      <div class="row"> 
+  <div id="answ" class="col-md-8 col-md-offset-4" >@Html.Action("IndexT","Answer",new{id=item.ID}) <p class="text-primary"> @Html.ActionLink("Відповідь", "Create", "Answer" ,new {id=item.ID, idt=item.TopicsID },null) </p> </div>       
+ </div>
+       </div>
+  <div class="panel-footer">   <h6> <b>Автор @item.Author</b>
+         <b>@item.Date.ToShortDateString()</b></h6>   </div>
+</div>
+    
+
+
+}
+
+@*@Html.Action("Create","Discus",new{id=ViewBag.ID}) *@
+
+ <button class="btn btn-primary">Додати нове повідомлення</button>
+ <button class="btn btn-primary" id="10">Додати нове повідомлення</button>
+        <div id="news"><h3>  </h3></div>
+<div id="news1"><h3>  </h3></div>
+        <script type="text/javascript">
+           @* $(function () {
+                $('#news').load("/discus/create/@ViewBag.ID");
+
+            });*@
+       
+        </script>
+
+<script type="text/javascript" >
+
+ $(function(){
+            $('button').click(function(){
+                $('#news').load("/Discus/Create/@ViewBag.ID");
+            });
+        });
+
+
+</script>
+<script type="text/javascript" >
+
+    $(function () {
+        $('text-primary').mouseover(function () {
+            $('#news1').load("/Answer/Create/@ViewBag.ID");
+            });
+ });
+
+
+</script>

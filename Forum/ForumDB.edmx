@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ForumDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ForumDBStoreContainer">
+    <EntitySet Name="TopicsНабор" EntityType="ForumDB.Store.TopicsНабор" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DiscusНабор" EntityType="ForumDB.Store.DiscusНабор" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AnswerНабор" EntityType="ForumDB.Store.AnswerНабор" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TopicsDiscus" Association="ForumDB.Store.TopicsDiscus">
+      <End Role="Topics" EntitySet="TopicsНабор" />
+      <End Role="Discus" EntitySet="DiscusНабор" />
+    </AssociationSet>
+    <AssociationSet Name="DiscusAnswer" Association="ForumDB.Store.DiscusAnswer">
+      <End Role="Discus" EntitySet="DiscusНабор" />
+      <End Role="Answer" EntitySet="AnswerНабор" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TopicsНабор">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TopicName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DiscusНабор">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TopicsID" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AnswerНабор">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DiscusID" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="TopicsDiscus">
+    <End Role="Topics" Type="ForumDB.Store.TopicsНабор" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Discus" Type="ForumDB.Store.DiscusНабор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Topics">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Discus">
+        <PropertyRef Name="TopicsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DiscusAnswer">
+    <End Role="Discus" Type="ForumDB.Store.DiscusНабор" Multiplicity="1" />
+    <End Role="Answer" Type="ForumDB.Store.AnswerНабор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Discus">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="DiscusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ForumDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ForumDBContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TopicsНабор" EntityType="ForumDB.Topics" />
+          <EntitySet Name="DiscusНабор" EntityType="ForumDB.Discus" />
+          <AssociationSet Name="TopicsDiscus" Association="ForumDB.TopicsDiscus">
+            <End Role="Topics" EntitySet="TopicsНабор" />
+            <End Role="Discus" EntitySet="DiscusНабор" />
+          </AssociationSet>
+          <EntitySet Name="AnswerНабор" EntityType="ForumDB.Answer" />
+          <AssociationSet Name="DiscusAnswer" Association="ForumDB.DiscusAnswer">
+            <End Role="Discus" EntitySet="DiscusНабор" />
+            <End Role="Answer" EntitySet="AnswerНабор" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Topics">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="TopicName" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Author" Nullable="false" />
+          <NavigationProperty Name="Discus" Relationship="ForumDB.TopicsDiscus" FromRole="Topics" ToRole="Discus" />
+        </EntityType>
+        <EntityType Name="Discus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Topics" Relationship="ForumDB.TopicsDiscus" FromRole="Discus" ToRole="Topics" />
+          <Property Type="Int32" Name="TopicsID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Author" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" />
+          <NavigationProperty Name="Answer" Relationship="ForumDB.DiscusAnswer" FromRole="Discus" ToRole="Answer" />
+        </EntityType>
+        <Association Name="TopicsDiscus">
+          <End Type="ForumDB.Topics" Role="Topics" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ForumDB.Discus" Role="Discus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topics">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Discus">
+              <PropertyRef Name="TopicsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Discus" Relationship="ForumDB.DiscusAnswer" FromRole="Answer" ToRole="Discus" />
+          <Property Type="Int32" Name="DiscusID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Author" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" />
+        </EntityType>
+        <Association Name="DiscusAnswer">
+          <End Type="ForumDB.Discus" Role="Discus" Multiplicity="1" />
+          <End Type="ForumDB.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Discus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="DiscusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ForumDBStoreContainer" CdmEntityContainer="ForumDBContainer">
+    <EntitySetMapping Name="TopicsНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ForumDB.Topics)">
+        <MappingFragment StoreEntitySet="TopicsНабор">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TopicName" ColumnName="TopicName" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiscusНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ForumDB.Discus)">
+        <MappingFragment StoreEntitySet="DiscusНабор">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TopicsID" ColumnName="TopicsID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AnswerНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ForumDB.Answer)">
+        <MappingFragment StoreEntitySet="AnswerНабор">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="DiscusID" ColumnName="DiscusID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

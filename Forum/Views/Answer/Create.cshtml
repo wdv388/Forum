@@ -1,0 +1,63 @@
+﻿@model Forum.Answer
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Answer</legend>
+        <input type="hidden" name="DiscusID" value="@ViewBag.ID " id="DiscusID" />
+        <input type="hidden" name="Date" value="@System.DateTime.Now " id="Date" />
+        <input type="hidden" name="Author" value="@ViewBag.AID  " id="Author" />
+        <input type="hidden" name="Topics" value="@ViewBag.TOP " id="Topics" />
+       @* <div class="editor-label">
+            @Html.LabelFor(model => model.DiscusID, "Discus")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("DiscusID", String.Empty)
+            @Html.ValidationMessageFor(model => model.DiscusID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Date)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Date)
+            @Html.ValidationMessageFor(model => model.Date)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Author)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Author)
+            @Html.ValidationMessageFor(model => model.Author)
+        </div>*@
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Text)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Text)
+            @Html.ValidationMessageFor(model => model.Text)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ForumDBStoreContainer" CdmEntityContainer="ForumDBContainer">
+    <EntitySetMapping Name="TopicsНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ForumDB.Topics)">
+        <MappingFragment StoreEntitySet="TopicsНабор">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TopicName" ColumnName="TopicName" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiscusНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ForumDB.Discus)">
+        <MappingFragment StoreEntitySet="DiscusНабор">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="TopicsID" ColumnName="TopicsID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AnswerНабор">
+      <EntityTypeMapping TypeName="IsTypeOf(ForumDB.Answer)">
+        <MappingFragment StoreEntitySet="AnswerНабор">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="DiscusID" ColumnName="DiscusID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

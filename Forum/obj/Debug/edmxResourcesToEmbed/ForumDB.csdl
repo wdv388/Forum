@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ForumDB" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="ForumDBContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="TopicsНабор" EntityType="ForumDB.Topics" />
+    <EntitySet Name="DiscusНабор" EntityType="ForumDB.Discus" />
+    <AssociationSet Name="TopicsDiscus" Association="ForumDB.TopicsDiscus">
+      <End Role="Topics" EntitySet="TopicsНабор" />
+      <End Role="Discus" EntitySet="DiscusНабор" />
+    </AssociationSet>
+    <EntitySet Name="AnswerНабор" EntityType="ForumDB.Answer" />
+    <AssociationSet Name="DiscusAnswer" Association="ForumDB.DiscusAnswer">
+      <End Role="Discus" EntitySet="DiscusНабор" />
+      <End Role="Answer" EntitySet="AnswerНабор" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Topics">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="TopicName" Nullable="false" />
+    <Property Type="DateTime" Name="Date" Nullable="false" />
+    <Property Type="String" Name="Author" Nullable="false" />
+    <NavigationProperty Name="Discus" Relationship="ForumDB.TopicsDiscus" FromRole="Topics" ToRole="Discus" />
+  </EntityType>
+  <EntityType Name="Discus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Topics" Relationship="ForumDB.TopicsDiscus" FromRole="Discus" ToRole="Topics" />
+    <Property Type="Int32" Name="TopicsID" Nullable="false" />
+    <Property Type="DateTime" Name="Date" Nullable="false" />
+    <Property Type="String" Name="Author" Nullable="false" />
+    <Property Type="String" Name="Text" Nullable="false" />
+    <NavigationProperty Name="Answer" Relationship="ForumDB.DiscusAnswer" FromRole="Discus" ToRole="Answer" />
+  </EntityType>
+  <Association Name="TopicsDiscus">
+    <End Type="ForumDB.Topics" Role="Topics" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ForumDB.Discus" Role="Discus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Topics">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Discus">
+        <PropertyRef Name="TopicsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Discus" Relationship="ForumDB.DiscusAnswer" FromRole="Answer" ToRole="Discus" />
+    <Property Type="Int32" Name="DiscusID" Nullable="false" />
+    <Property Type="DateTime" Name="Date" Nullable="false" />
+    <Property Type="String" Name="Author" Nullable="false" />
+    <Property Type="String" Name="Text" Nullable="false" />
+  </EntityType>
+  <Association Name="DiscusAnswer">
+    <End Type="ForumDB.Discus" Role="Discus" Multiplicity="1" />
+    <End Type="ForumDB.Answer" Role="Answer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Discus">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="DiscusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

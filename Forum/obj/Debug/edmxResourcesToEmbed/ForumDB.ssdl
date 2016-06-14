@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ForumDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ForumDBStoreContainer">
+    <EntitySet Name="TopicsНабор" EntityType="ForumDB.Store.TopicsНабор" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DiscusНабор" EntityType="ForumDB.Store.DiscusНабор" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AnswerНабор" EntityType="ForumDB.Store.AnswerНабор" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TopicsDiscus" Association="ForumDB.Store.TopicsDiscus">
+      <End Role="Topics" EntitySet="TopicsНабор" />
+      <End Role="Discus" EntitySet="DiscusНабор" />
+    </AssociationSet>
+    <AssociationSet Name="DiscusAnswer" Association="ForumDB.Store.DiscusAnswer">
+      <End Role="Discus" EntitySet="DiscusНабор" />
+      <End Role="Answer" EntitySet="AnswerНабор" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TopicsНабор">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TopicName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DiscusНабор">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TopicsID" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AnswerНабор">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DiscusID" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="TopicsDiscus">
+    <End Role="Topics" Type="ForumDB.Store.TopicsНабор" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Discus" Type="ForumDB.Store.DiscusНабор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Topics">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Discus">
+        <PropertyRef Name="TopicsID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DiscusAnswer">
+    <End Role="Discus" Type="ForumDB.Store.DiscusНабор" Multiplicity="1" />
+    <End Role="Answer" Type="ForumDB.Store.AnswerНабор" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Discus">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Answer">
+        <PropertyRef Name="DiscusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
